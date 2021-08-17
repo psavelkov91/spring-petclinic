@@ -8,9 +8,6 @@ pipeline {
 
         }
         
-    environment {
-    }
-    
     stages {
         stage("Clone code from VCS") {
             
