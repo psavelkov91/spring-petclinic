@@ -1,6 +1,10 @@
 pipeline {
+    environment {
+        JAVA_TOOL_OPTIONS = "-Duser.home=/var/maven"
+    }
     agent {
         label "master"
+        args "-v /tmp/maven:/var/maven/.m2i -e MAVEN_CONFIG=/var/maven/.m2"
     }
     
     tools {
@@ -20,7 +24,7 @@ pipeline {
         stage("Maven Build") {
             steps {
                 script {
-                    sh "mvn clean package "
+                    sh "mvn clean install "
 
                 }
             }
