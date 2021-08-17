@@ -3,8 +3,10 @@ pipeline {
         JAVA_TOOL_OPTIONS = "-Duser.home=/var/maven"
     }
     agent {
+        master{
         label "master"
-        args "-v /tmp/maven:/var/maven/.m2i -e MAVEN_CONFIG=/var/maven/.m2"
+        args "-v /tmp/maven:/var/maven/.m2 -e MAVEN_CONFIG=/var/maven/.m2"
+        }
     }
     
     tools {
