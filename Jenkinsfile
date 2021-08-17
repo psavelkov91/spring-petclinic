@@ -9,12 +9,6 @@ pipeline {
         }
         
     environment {
-        NEXUS_VERSION = "nexus3"
-        NEXUS_PROTOCOL = "http"
-
-        NEXUS_CREDENTIAL_ID = "nexus-repo"
-
-        
     }
     
     stages {
