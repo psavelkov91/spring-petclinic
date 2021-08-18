@@ -28,14 +28,16 @@ pipeline {
         stage('Create Artifact') {
             steps([$class: 'BapSshPromotionPublisherPlugin']) {
                 
-          withCredentials([
-              usernamePassword(
+  
+                script { 
+                    
+                    withCredentials([
+                      usernamePassword(
                   credentialsId: 'nexus-creds',
                   usernameVariable: 'DOCKER_USER',
                   passwordVariable: 'DOCKER_PASSWORD'
-              )
-          ])
-                script { 
+                       )
+                       ])
                      NexusRepo = readMavenPom().getVersion().contains("snapshot") ? "ip-10-0-1-140.eu-central-1.compute.internal:8083/" : "ip-10-0-1-140.eu-central-1.compute.internal:8084/"
                      ArtifactId = readMavenPom().getArtifactId()
                      Version = readMavenPom().getVersion()
