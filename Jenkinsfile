@@ -48,8 +48,7 @@ pipeline {
                         verbose: true,
                         transfers:[
                             sshTransfer(sourceFiles: "target/*.jar", removePrefix: "target", remoteDirectory: "docker-java-pet-clinic",
-                            execCommand:"ansible-playbook  build-image.yml --extra-vars 'ImageVersion=${ArtifactId}-${Version}-build-${env.BUILD_NUMBER} repos=${NexusRepo}${ArtifactId}-${Version}-build-${env.BUILD_NUMBER} ImageVersionJinja=${ArtifactId}-${Version}. DOCKER_USER=${env.DOCKER_USER}
-                                        DOCKER_PASSWORD=${env.DOCKER_PASSWORD}'")
+                            execCommand:"ansible-playbook  build-image.yml --extra-vars 'ImageVersion=${ArtifactId}-${Version}-build-${env.BUILD_NUMBER} repos=${NexusRepo}${ArtifactId}-${Version}-build-${env.BUILD_NUMBER} ImageVersionJinja=${ArtifactId}-${Version}. DOCKER_USER=${env.DOCKER_USER} DOCKER_PASSWORD=${env.DOCKER_PASSWORD}'")
                            
                                     ]
                                     )
