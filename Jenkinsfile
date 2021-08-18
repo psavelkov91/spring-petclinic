@@ -31,7 +31,7 @@ pipeline {
             }
         }
         
-#Push jar file to ansible server, build docker image, push image to Nexus
+//Push jar file to ansible server, build docker image, push image to Nexus
         
         stage('Build Image&Push to Nexus') {
             steps([$class: 'BapSshPromotionPublisherPlugin']) {
@@ -60,7 +60,7 @@ pipeline {
         }
 
     }
-#Clean Workspace
+//Clean Workspace
     
        post {
           always {
