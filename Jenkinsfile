@@ -1,3 +1,5 @@
+def NexusRepo
+
 pipeline {
     environment {
         JAVA_TOOL_OPTIONS = "-Duser.home=/var/maven"
@@ -10,7 +12,8 @@ pipeline {
         
     stages {
 
-
+//Build app using MAVEN
+        
         stage("Build") {
             steps {
                 script {
@@ -47,6 +50,7 @@ pipeline {
                                                             }
                           }
         }
+   // Run playbook that deploys on Amazon ECS
         
         stage('Deploy Artifact') {
             steps([$class: 'BapSshPromotionPublisherPlugin']) {
