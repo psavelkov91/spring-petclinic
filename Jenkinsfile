@@ -10,19 +10,16 @@ pipeline {
     
     tools {
         maven "maven-3.8.1"
-
         }
         
     stages {
-        stage("Clone code from VCS") {
-            
+
+        stage("CHECKOUT") {
             steps {
                  checkout([$class: 'GitSCM', branches: [[name: '*/main']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '', url: 'https://github.com/psavelkov91/spring-petclinic']]]) 
-            }
-            
-            
+            }    
         }
-        stage("Maven Build") {
+        stage("BUILD") {
             steps {
                 script {
                     sh "mvn clean package "
@@ -33,7 +30,7 @@ pipeline {
         
 //Push jar file to ansible server, build docker image, push image to Nexus
         
-        stage('Build Image&Push to Nexus') {
+        stage('CREATE ARTIFACT') {
             steps([$class: 'BapSshPromotionPublisherPlugin']) {
                 script { 
                     def NexusRepo = readMavenPom().getVersion().contains("snapshot") ? "ip-10-0-1-140.eu-central-1.compute.internal:8083/" : "ip-10-0-1-140.eu-central-1.compute.internal:8084/"
