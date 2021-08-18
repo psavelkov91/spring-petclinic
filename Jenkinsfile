@@ -58,7 +58,7 @@ pipeline {
                           }
                           }
         }
-   // Run playbook that deploys on Amazon ECS
+   // Run playbook that deploys docker imnage on Amazon ECS
         
         stage('Deploy Artifact') {
             steps([$class: 'BapSshPromotionPublisherPlugin']) {
