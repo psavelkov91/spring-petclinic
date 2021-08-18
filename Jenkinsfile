@@ -28,7 +28,7 @@ pipeline {
         stage('Create Artifact') {
             steps([$class: 'BapSshPromotionPublisherPlugin']) {
                 script { 
-                    def NexusRepo = readMavenPom().getVersion().contains("snapshot") ? "ip-10-0-1-140.eu-central-1.compute.internal:8083/" : "ip-10-0-1-140.eu-central-1.compute.internal:8084/"
+                     NexusRepo = readMavenPom().getVersion().contains("snapshot") ? "ip-10-0-1-140.eu-central-1.compute.internal:8083/" : "ip-10-0-1-140.eu-central-1.compute.internal:8084/"
                     def ArtifactId = readMavenPom().getArtifactId()
                     def Version = readMavenPom().getVersion()
                     def Name = readMavenPom().getName()
@@ -55,7 +55,7 @@ pipeline {
         stage('Deploy Artifact') {
             steps([$class: 'BapSshPromotionPublisherPlugin']) {
                 script { 
-                    def NexusRepo = readMavenPom().getVersion().contains("snapshot") ? "ip-10-0-1-140.eu-central-1.compute.internal:8083/" : "ip-10-0-1-140.eu-central-1.compute.internal:8084/"
+                     NexusRepo = readMavenPom().getVersion().contains("snapshot") ? "ip-10-0-1-140.eu-central-1.compute.internal:8083/" : "ip-10-0-1-140.eu-central-1.compute.internal:8084/"
                     def ArtifactId = readMavenPom().getArtifactId()
                     def Version = readMavenPom().getVersion()
                 sshPublisher(
