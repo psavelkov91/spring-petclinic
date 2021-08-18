@@ -10,11 +10,7 @@ pipeline {
         
     stages {
 
-        stage("CHECKOUT") {
-            steps {
-                 checkout([$class: 'GitSCM', branches: [[name: '*/main']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '', url: 'https://github.com/psavelkov91/spring-petclinic']]]) 
-            }    
-        }
+
         stage("BUILD") {
             steps {
                 script {
