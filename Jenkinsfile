@@ -11,7 +11,7 @@ pipeline {
     stages {
 
 
-        stage("BUILD") {
+        stage("Build") {
             steps {
                 script {
                     sh "mvn clean package "
@@ -22,7 +22,7 @@ pipeline {
         
 //Push jar file to ansible server, build docker image, push image to Nexus
         
-        stage('CREATE ARTIFACT') {
+        stage('Create Artifact') {
             steps([$class: 'BapSshPromotionPublisherPlugin']) {
                 script { 
                     def NexusRepo = readMavenPom().getVersion().contains("snapshot") ? "ip-10-0-1-140.eu-central-1.compute.internal:8083/" : "ip-10-0-1-140.eu-central-1.compute.internal:8084/"
@@ -47,6 +47,32 @@ pipeline {
                                                             }
                           }
         }
+        
+        stage('Deploy Artifact') {
+            steps([$class: 'BapSshPromotionPublisherPlugin']) {
+                script { 
+                    def NexusRepo = readMavenPom().getVersion().contains("snapshot") ? "ip-10-0-1-140.eu-central-1.compute.internal:8083/" : "ip-10-0-1-140.eu-central-1.compute.internal:8084/"
+                    def ArtifactId = readMavenPom().getArtifactId()
+                    def Version = readMavenPom().getVersion()
+                sshPublisher(
+                continueOnError: false, failOnError: true,
+                publishers: [
+                    sshPublisherDesc(
+                        configName: "ansibleserver",
+                        verbose: true,
+                        transfers:[
+                            sshTransfer(
+                            execCommand:"ansible-playbook  deploy-image.yml --extra-vars 'repos=${NexusRepo}${ArtifactId}-${Version}-build-${env.BUILD_NUMBER}'"
+                            )
+                           
+                                    ]
+                                    )
+                             ]
+                         )
+                                                            }
+                          }
+        }
+        
 
     }
 //Clean Workspace
