@@ -27,6 +27,15 @@ pipeline {
         
         stage('Create Artifact') {
             steps([$class: 'BapSshPromotionPublisherPlugin']) {
+                
+                steps {
+          withCredentials([
+              usernamePassword(
+                  credentialsId: 'nexus-creds’,
+                  usernameVariable: 'DOCKER_USER’,
+                  passwordVariable: 'DOCKER_PASSWORD'
+              )
+          ])
                 script { 
                      NexusRepo = readMavenPom().getVersion().contains("snapshot") ? "ip-10-0-1-140.eu-central-1.compute.internal:8083/" : "ip-10-0-1-140.eu-central-1.compute.internal:8084/"
                      ArtifactId = readMavenPom().getArtifactId()
@@ -39,7 +48,9 @@ pipeline {
                         verbose: true,
                         transfers:[
                             sshTransfer(sourceFiles: "target/*.jar", removePrefix: "target", remoteDirectory: "docker-java-pet-clinic",
-                            execCommand:"ansible-playbook  build-image.yml --extra-vars 'ImageVersion=${ArtifactId}-${Version}-build-${env.BUILD_NUMBER}  repos=${NexusRepo}${ArtifactId}-${Version}-build-${env.BUILD_NUMBER} ImageVersionJinja=${ArtifactId}-${Version}.'")
+                            execCommand:"ansible-playbook  build-image.yml --extra-vars 'ImageVersion=${ArtifactId}-${Version}-build-${env.BUILD_NUMBER}  
+                                        repos=${NexusRepo}${ArtifactId}-${Version}-build-${env.BUILD_NUMBER} ImageVersionJinja=${ArtifactId}-${Version}. DOCKER_USER=${env.DOCKER_USER}
+                                        DOCKER_PASSWORD=${env.DOCKER_PASSWORD}'")
                            
                                     ]
                                     )
