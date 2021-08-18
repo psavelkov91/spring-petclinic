@@ -3,9 +3,7 @@ def ArtifactId
 def Version
 
 pipeline {
-    environment {
-        JAVA_TOOL_OPTIONS = "-Duser.home=/var/maven"
-    }
+
     agent any
     
     tools {
