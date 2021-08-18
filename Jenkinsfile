@@ -28,7 +28,6 @@ pipeline {
         stage('Create Artifact') {
             steps([$class: 'BapSshPromotionPublisherPlugin']) {
                 
-                steps {
           withCredentials([
               usernamePassword(
                   credentialsId: 'nexus-creds',
