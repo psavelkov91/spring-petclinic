@@ -54,10 +54,7 @@ pipeline {
         
         stage('Deploy Artifact') {
             steps([$class: 'BapSshPromotionPublisherPlugin']) {
-                script { 
-        
-                    def ArtifactId = readMavenPom().getArtifactId()
-                    def Version = readMavenPom().getVersion()
+                script {
                 sshPublisher(
                 continueOnError: false, failOnError: true,
                 publishers: [
